@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.milkfarm.testeapp.Principal">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        app:srcCompat="@drawable/vaca" />
+
+    <TextView
+        android:id="@+id/textDia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonEnviar"
+        android:layout_alignStart="@+id/buttonEnviar"
+        android:layout_centerVertical="true"
+        android:text="@string/dia" />
+
+    <Spinner
+        android:id="@+id/spinnerMes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textMes"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/textMes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textDia"
+        android:layout_alignRight="@+id/textDia"
+        android:layout_below="@+id/textDia"
+        android:layout_marginTop="35dp"
+        android:text="@string/mes" />
+
+    <Spinner
+        android:id="@+id/spinnerDia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textDia"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/buttonEnviar"
+        android:layout_width="@android:dimen/thumbnail_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:text="@string/botao" />
+
+</RelativeLayout>
