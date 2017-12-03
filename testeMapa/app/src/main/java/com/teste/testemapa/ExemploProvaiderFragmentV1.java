@@ -2,6 +2,7 @@ package com.teste.testemapa;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,34 +31,33 @@ public class ExemploProvaiderFragmentV1 extends SupportMapFragment implements On
 
     private GoogleMap mMap;
     private LocationManager locationManager;
+    // declaração da interface de comunicação
+    public interface InterfaceComunicao {
+
+        // aqui, um ou mais métodos de comunicação
+        void setIdade(String provider); // por exemplo, este método retorna a idade inserida no fragment
+    }
+    private InterfaceComunicao listener;
+    private String provider;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
+        provider = locationManager.getBestProvider(criteria, true);
+        testeComunicacao(provider);
         try {
 
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-            mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(true);
         }catch (SecurityException e){
             Log.e("Erro:", e.getMessage());
         }
@@ -75,5 +76,28 @@ public class ExemploProvaiderFragmentV1 extends SupportMapFragment implements On
     @Override
     public void onMapClick(LatLng latLng) {
         Toast.makeText(getContext(),"coordenadas: "+ latLng.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+    onAttach faz parte do ciclo de vida do fragment, é executado
+    quando o fragment é associado à activity
+        */
+    @Override
+    public void onAttach(Activity activity) {
+
+        super.onAttach(activity);
+        if(activity instanceof InterfaceComunicao){
+            listener = (InterfaceComunicao) activity;
+        }else {
+            Log.e("Erro", String.valueOf(new ClassCastException()));
+        }
+    }
+    public void testeComunicacao(String link){
+        /*
+            - chama o método de comunicação para atualizar o valor que o usuário informou na tela
+            - neste ponto, ler o valor de uma view, por exemplo TextView na tela
+            - para o exemplo configuramos direto o valor 15
+        */
+        listener.setIdade(link);
     }
 }

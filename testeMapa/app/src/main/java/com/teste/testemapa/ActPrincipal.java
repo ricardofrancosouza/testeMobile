@@ -15,11 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ActPrincipal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ExemploProvaiderFragmentV1.InterfaceComunicao {
 
     private FragmentManager fragmentManager;
+    private String teste;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class ActPrincipal extends AppCompatActivity
                 break;
             case R.id.nav_exemploproviderv1:
                 showFragment(new ExemploProvaiderFragmentV1(),"ExemploProvaiderFragmentV1");
+
                 break;
             case R.id.nav_exemploproviderv2:
                 showFragment(new ExemploProviderFragmentV2(),"ExemploProviderFragmentV2");
@@ -102,5 +105,13 @@ public class ActPrincipal extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    @Override
+    public void setIdade(String provider) {
+        teste = provider;
+        Toast.makeText(this, ""+provider,Toast.LENGTH_SHORT).show();
     }
 }
