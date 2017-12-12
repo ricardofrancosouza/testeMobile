@@ -17,10 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class ActPrincipal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ExemploProvaiderFragmentV1.InterfaceComunicao {
+        implements NavigationView.OnNavigationItemSelectedListener, ExemploProvaiderFragmentV1.InterfaceComunicao,OnMapReadyCallback, GoogleMap.OnMapClickListener  {
 
     private FragmentManager fragmentManager;
+    private GoogleMap mMap;
     private String teste;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +46,18 @@ public class ActPrincipal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        transaction.add(R.id.container, new MapsFragment());
-        transaction.commitAllowingStateLoss();
+
+        MapFragment mMapFragment = MapFragment.newInstance();
+        android.app.FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.container, mMapFragment);
+        fragmentTransaction.commit();
+//        fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//
+//        transaction.add(R.id.container, new MapsFragment());
+//        transaction.commitAllowingStateLoss();
     }
 
     @Override
@@ -113,5 +128,25 @@ public class ActPrincipal extends AppCompatActivity
     public void setIdade(String provider) {
         teste = provider;
         Toast.makeText(this, ""+provider,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-19.1826, -48.5527);
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(sydney);
+        marker.title("Marker in Sydney");
+
+        mMap.addMarker(marker);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
